@@ -1,0 +1,11 @@
+<div *ngFor="let suggestion of suggestions">
+	<h2>{{ suggestion.title }}</h2>
+    <p>Category: {{ suggestion.category }}</p>
+    <p>Date: {{ suggestion.date | date }}</p>
+    <p>{{ suggestion.description }}</p>
+    <p>Status: {{ suggestion.status }}</p>
+    <p>Likes: {{ suggestion.nbLikes }}</p>
+    <button (click)="addLike(suggestion)">Like</button>
+    <button (click)="addFav(suggestion)">Add to Favorites</button>
+</div>
+<input [(ngModel)]="searchTerm" placeholder="Search suggestion by title and category" (input)="search(suggestion)">
