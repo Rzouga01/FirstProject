@@ -1,0 +1,108 @@
+.suggestions-container {
+	max-width: 900px;
+	margin: 0 auto;
+}
+
+.page-title {
+	text-align: center;
+	color: #333;
+	font-size: 2rem;
+	margin-bottom: 2rem;
+}
+
+.suggestion-card {
+	background: white;
+	border-radius: 8px;
+	padding: 1.5rem;
+	margin-bottom: 1.5rem;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+	margin-bottom: 0.5rem;
+}
+
+.suggestion-title {
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: #333;
+	margin: 0 0 0.5rem 0;
+}
+
+.card-meta {
+	display: flex;
+	gap: 1rem;
+	margin-bottom: 1rem;
+	align-items: center;
+}
+
+.category {
+	color: #007bff;
+	font-weight: 500;
+	font-size: 0.9rem;
+}
+
+.date {
+	color: #666;
+	font-size: 0.9rem;
+}
+
+.suggestion-description {
+	color: #555;
+	line-height: 1.6;
+	margin-bottom: 1rem;
+}
+
+.status-badge {
+	display: inline-block;
+	padding: 0.25rem 0.75rem;
+	border-radius: 4px;
+	font-size: 0.75rem;
+	font-weight: 600;
+	margin-bottom: 1rem;
+}
+
+.status-acceptee {
+	background-color: #d4edda;
+	color: #155724;
+}
+
+.status-refusee {
+	background-color: #f8d7da;
+	color: #721c24;
+}
+
+.status-en_attente {
+	background-color: #fff3cd;
+	color: #856404;
+}
+
+.likes {
+	color: #555;
+	line-height: 1.6;
+	margin-bottom: 1rem;
+}
+
+.card-actions {
+	display: flex;
+	gap: 1rem;
+}
+
+.btn-back {
+	padding: 0.5rem 1.25rem;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 0.9rem;
+	cursor: pointer;
+	transition: all 0.3s;
+	font-weight: 500;
+	background-color: white;
+	color: #333;
+	text-decoration: none;
+}
+
+.btn-back:hover {
+	background-color: green;
+	border-color: #999;
+	color: white;
+}

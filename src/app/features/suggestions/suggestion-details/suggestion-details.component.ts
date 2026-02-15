@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
-import { Suggestion } from '../../models/suggestion';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Suggestion } from '../../../models/suggestion';
 
 @Component({
-  selector: 'app-list-suggestion',
-  templateUrl: './list-suggestion.component.html',
-  styleUrls: ['./list-suggestion.component.css']
+  selector: 'app-suggestion-details',
+  templateUrl: './suggestion-details.component.html',
+  styleUrls: ['./suggestion-details.component.css']
 })
-export class ListSuggestionComponent {
+export class SuggestionDetailsComponent implements OnInit {
+  suggestion: Suggestion | undefined;
 
-  suggestions: Suggestion[] = [
+  private suggestions: Suggestion[] = [
     {
       id: 1,
       title: 'Organiser une journée team building',
@@ -51,22 +53,11 @@ export class ListSuggestionComponent {
     }
   ];
 
-  favSuggestions: Suggestion[] = [];
+  constructor(private route: ActivatedRoute) {}
 
-  addFav(suggestion: Suggestion): void {
-    if (!this.favSuggestions.includes(suggestion)) {    
-    this.favSuggestions.push(suggestion);
-  }
-  }
-
-   addLike(suggestion: Suggestion): void { 
-    suggestion.nbLikes++;
-  }
-
-  seacrh(seacrhTerm: string): Suggestion[] {
-    return this.suggestions = this.suggestions.filter(suggestion =>
-      suggestion.title.toLowerCase().includes(seacrhTerm.toLowerCase()) ||
-      suggestion.category.toLowerCase().includes(seacrhTerm.toLowerCase())
-    );
+  ngOnInit(): void {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    const id = idParam ? Number(idParam) : NaN;
+    this.suggestion = this.suggestions.find(item => item.id === id);
   }
 }

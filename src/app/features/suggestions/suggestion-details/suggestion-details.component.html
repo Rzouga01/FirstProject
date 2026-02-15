@@ -1,0 +1,37 @@
+<div class="suggestions-container" *ngIf="suggestion; else notFound">
+	<h1 class="page-title">Details de la suggestion</h1>
+
+	<div class="suggestion-card">
+		<div class="card-header">
+			<h2 class="suggestion-title">{{ suggestion.title }}</h2>
+		</div>
+
+		<div class="card-meta">
+			<span class="category">{{ suggestion.category }}</span>
+			<span class="date">{{ suggestion.date | date:'d MMM yyyy' }}</span>
+		</div>
+
+		<p class="suggestion-description">{{ suggestion.description }}</p>
+
+		<div class="status-badge" [ngClass]="'status-' + suggestion.status.toLowerCase()">
+			{{ suggestion.status.toUpperCase() }}
+		</div>
+
+		<p class="likes">👍 {{ suggestion.nbLikes }} likes</p>
+
+		<div class="card-actions">
+			<a class="btn-back" routerLink="/suggestions/suggestionslist">Back to list</a>
+		</div>
+	</div>
+</div>
+<ng-template #notFound>
+	<div class="suggestions-container">
+		<h1 class="page-title">Suggestion not found.</h1>
+		<div class="suggestion-card">
+			<p class="suggestion-description">Try going back to the list and selecting another item.</p>
+			<div class="card-actions">
+				<a class="btn-back" routerLink="/suggestions/suggestionslist">Back to list</a>
+			</div>
+		</div>
+	</div>
+</ng-template>
