@@ -76,7 +76,7 @@
         type="submit" 
         class="btn-submit" 
         [disabled]="suggestionForm.invalid">
-        ✓ Soumettre
+        {{ isEditMode ? 'Save' : 'Soumettre' }}
       </button>
     </div>
   </form>

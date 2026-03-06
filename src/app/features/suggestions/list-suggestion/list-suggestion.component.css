@@ -19,7 +19,6 @@
 .btn-add:hover {
   background-color: #0056b3;
 }
-}
 
 .page-title {
   text-align: center;
@@ -117,7 +116,8 @@
 
 .btn-like,
 .btn-favorite,
-.btn-details {
+.btn-details,
+.btn-delete {
   padding: 0.5rem 1.25rem;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -158,4 +158,15 @@ color: white;
 	background-color:#155724;
 	border-color: #999;
 	color: white;
+}
+
+.btn-delete {
+  color: white;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-delete:hover {
+  background-color: #b52a37;
+  border-color: #b52a37;
 }

@@ -20,6 +20,7 @@
 		<p class="likes">👍 {{ suggestion.nbLikes }} likes</p>
 
 		<div class="card-actions">
+			<a class="btn-update" [routerLink]="['/suggestions/suggestion-form', suggestion.id]">Update</a>
 			<a class="btn-back" routerLink="/suggestions/suggestionslist">Back to list</a>
 		</div>
 	</div>

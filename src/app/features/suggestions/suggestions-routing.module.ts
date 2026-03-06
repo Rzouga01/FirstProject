@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'suggestionslist', component: ListSuggestionComponent },
   { path: 'suggestionslist/:id', component: SuggestionDetailsComponent },
   { path: 'suggestion-form', component: SuggestionFormComponent },
+  { path: 'suggestion-form/:id', component: SuggestionFormComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 

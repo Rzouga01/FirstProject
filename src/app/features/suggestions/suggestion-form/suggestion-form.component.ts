@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SuggestionService } from '../../../core/Services/suggestion.service';
+import { Suggestion } from '../../../models/suggestion';
 
 @Component({
   selector: 'app-suggestion-form',
@@ -9,6 +11,8 @@ import { Router } from '@angular/router';
 })
 export class SuggestionFormComponent implements OnInit {
   suggestionForm!: FormGroup;
+  id: number | null = null;
+  isEditMode: boolean = false;
   
   categories: string[] = [
     'Infrastructure et bâtiments',
@@ -25,7 +29,9 @@ export class SuggestionFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private actR: ActivatedRoute,
+    private service: SuggestionService
   ) {}
 
   ngOnInit(): void {
@@ -37,55 +43,66 @@ export class SuggestionFormComponent implements OnInit {
       ]],
       description: ['', [
         Validators.required,
-        Validators.minLength(30)      ]],
+        Validators.minLength(30)
+      ]],
       category: ['', Validators.required],
       date: [{ value: new Date().toISOString().split('T')[0], disabled: true }],
-      status: [{ value: 'en attente', disabled: true }]
+      status: [{ value: 'en_attente', disabled: false }],
+      nbLikes: [0]
     });
+
+    const idParam = this.actR.snapshot.params['id'];
+    this.id = idParam ? Number(idParam) : null;
+    this.isEditMode = this.id !== null && !Number.isNaN(this.id);
+
+    if (this.isEditMode && this.id !== null) {
+      this.service.getSuggestionById(this.id).subscribe((data) => {
+        this.suggestionForm.patchValue({
+          title: data.title,
+          description: data.description,
+          category: data.category,
+          date: this.formatDate(data.date),
+          status: data.status,
+          nbLikes: data.nbLikes
+        });
+      });
+    }
   }
 
   onSubmit(): void {
-    if (this.suggestionForm.valid) {
-      const formValue = this.suggestionForm.getRawValue();
-      
-      const newSuggestion = {
-        id: this.generateId(),
-        title: formValue.title,
-        description: formValue.description,
-        category: formValue.category,
-        date: new Date(formValue.date),
-        status: 'en_attente',
-        nbLikes: 0
-      };
-
-      this.addSuggestionToList(newSuggestion);
-
-      this.router.navigate(['/listSuggestion']);
+    if (!this.suggestionForm.valid) {
+      return;
     }
-  }
 
-  private generateId(): number {
-    const suggestions = this.getSuggestionsFromStorage();
-    if (suggestions.length === 0) {
-      return 1;
+    const formValue = this.suggestionForm.getRawValue();
+    const suggestion: Suggestion = {
+      id: this.id ?? 0,
+      title: formValue.title,
+      description: formValue.description,
+      category: formValue.category,
+      date: new Date(formValue.date),
+      status: formValue.status,
+      nbLikes: Number(formValue.nbLikes) || 0
+    };
+
+    if (this.isEditMode && this.id !== null) {
+      this.service.updateSuggestion(this.id, suggestion).subscribe(() => {
+        this.router.navigate(['/suggestions/suggestionslist']);
+      });
+      return;
     }
-  ``
-    return Math.max(...suggestions.map(s => s.id)) + 1;
+
+    this.service.addSuggestion(suggestion).subscribe(() => {
+      this.router.navigate(['/suggestions/suggestionslist']);
+    });
   }
 
-  private addSuggestionToList(suggestion: any): void {
-    const suggestions = this.getSuggestionsFromStorage();
-    suggestions.push(suggestion);
-    localStorage.setItem('listSuggestion', JSON.stringify(suggestions));
-  }
-
-  private getSuggestionsFromStorage(): any[] {
-    const storedSuggestions = localStorage.getItem('listSuggestion');
-    return storedSuggestions ? JSON.parse(storedSuggestions) : [];
+  private formatDate(value: Date | string): string {
+    const date = new Date(value);
+    return date.toISOString().split('T')[0];
   }
 
   get title() { return this.suggestionForm.get('title'); }
   get description() { return this.suggestionForm.get('description'); }
   get category() { return this.suggestionForm.get('category'); }
- 
 }
